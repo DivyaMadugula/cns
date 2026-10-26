@@ -1,0 +1,20 @@
+import java.util.*;
+
+class Steganography {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter secret message: ");
+        String msg = sc.nextLine();
+
+        String hidden = Base64.getEncoder()
+                              .encodeToString(msg.getBytes());
+
+        System.out.println("Hidden data: " + hidden);
+
+        String original = new String(
+            Base64.getDecoder().decode(hidden));
+
+        System.out.println("Extracted message: " + original);
+    }
+}
