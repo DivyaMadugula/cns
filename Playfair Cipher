@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Playfair {
+    static char[][] a = new char[5][5];
+
+    static void key(String k) {
+        String s = "";
+        k = (k + "ABCDEFGHIKLMNOPQRSTUVWXYZ").toUpperCase().replace('J', 'I');
+        for (char c : k.toCharArray())
+            if (c >= 'A' && c <= 'Z' && s.indexOf(c) < 0) s += c;
+        for (int i = 0; i < 25; i++) a[i / 5][i % 5] = s.charAt(i);
+    }
+
+    static String play(String s, int d) {
+        s = s.toUpperCase().replace('J', 'I').replaceAll("[^A-Z]", "");
+        String r = "";
+        if (s.length() % 2 != 0) s += "X";
+
+        for (int i = 0; i < s.length(); i += 2) {
+            char x = s.charAt(i), y = s.charAt(i + 1);
+            int r1 = 0, c1 = 0, r2 = 0, c2 = 0;
+
+            for (int j = 0; j < 25; j++) {
+                if (a[j / 5][j % 5] == x) { r1 = j / 5; c1 = j % 5; }
+                if (a[j / 5][j % 5] == y) { r2 = j / 5; c2 = j % 5; }
+            }
+
+            if (r1 == r2) {
+                r += a[r1][(c1 + d + 5) % 5];
+                r += a[r2][(c2 + d + 5) % 5];
+            } else if (c1 == c2) {
+                r += a[(r1 + d + 5) % 5][c1];
+                r += a[(r2 + d + 5) % 5][c2];
+            } else {
+                r += a[r1][c2];
+                r += a[r2][c1];
+            }
+        }
+        return r;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        key(sc.nextLine());
+        String s = sc.nextLine(), e = play(s, 1);
+        System.out.println("Encrypted: " + e);
+        System.out.println("Decrypted: " + play(e, -1));
+    }
+}
