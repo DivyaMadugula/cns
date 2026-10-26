@@ -1,0 +1,52 @@
+
+import java.util.*;
+
+class RowColumn {
+    static String encrypt(String s, int cols) {
+        s = s.toUpperCase().replaceAll("[^A-Z]", "");
+        while (s.length() % cols != 0) s += "X";
+
+        String r = "";
+        for (int c = 0; c < cols; c++)
+            for (int i = c; i < s.length(); i += cols)
+                r += s.charAt(i);
+
+        return r;
+    }
+
+    static String decrypt(String s, int cols) {
+        int rows = s.length() / cols;
+        char[][] a = new char[rows][cols];
+        int k = 0;
+
+        for (int c = 0; c < cols; c++)
+            for (int r = 0; r < rows; r++)
+                a[r][c] = s.charAt(k++);
+
+        String result = "";
+        for (int r = 0; r < rows; r++)
+            for (int c = 0; c < cols; c++)
+                result += a[r][c];
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter text: ");
+        String s = sc.nextLine();
+
+        System.out.print("Enter number of columns: ");
+        int cols = sc.nextInt();
+
+        if (cols < 1) {
+            System.out.println("Columns must be positive.");
+            return;
+        }
+
+        String e = encrypt(s, cols);
+        System.out.println("Encrypted: " + e);
+        System.out.println("Decrypted: " + decrypt(e, cols));
+    }
+}
