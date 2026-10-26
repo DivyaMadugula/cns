@@ -1,0 +1,24 @@
+import java.util.*;
+
+class Caesar {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine().toUpperCase();
+        int k = sc.nextInt();
+
+        String e = "", d = "";
+
+        for (char c : s.toCharArray()) {
+            if (c >= 'A' && c <= 'Z') {
+                e += (char) ((c - 'A' + k) % 26 + 'A');
+                d += (char) ((c - 'A' - k + 26) % 26 + 'A');
+            } else {
+                e += c;
+                d += c;
+            }
+        }
+
+        System.out.println("Encrypted: " + e);
+        System.out.println("Decrypted: " + d);
+    }
+}
